@@ -391,6 +391,8 @@ if __name__ == "__main__":
                         help='Level of debug to apply: info or debug')
     parser.add_argument('dumpschema',
                         help='the python dumpschema to use')
+    parser.add_argument('--start_args','--list', nargs='+', help='start arguments, probably just the id of the start record')
+    parser.add_argument('--start_table', help='start table')
     args = parser.parse_args()
 
     if args.debug == 'debug':
@@ -403,6 +405,9 @@ if __name__ == "__main__":
 
     try:
         m = __import__(dumpschema)
+
+        start_args = args.start_args or m.start_args
+        start_table = args.start_table or m.start_table
         Dumper(
                 m.relationships, 
                 m.pks, 
@@ -412,9 +417,9 @@ if __name__ == "__main__":
                 args.username,
                 args.password,
                 args.database,
-                m.start_table,
+                start_table,
                 m.start_where,
-                m.start_args,
+                start_args,
                 m.end_sql,
                 args.chunks,
                 args.output).go()
