@@ -328,7 +328,7 @@ class Dumper(object):
         allow_duplicates = ALLOW_DUPLICATES in self.pks[table_name].options
 
         result = self._get_writer()
-        result.write('INSERT %s INTO %s(%s) VALUES'%(
+        result.write('REPLACE %s INTO %s(%s) VALUES'%(
             "IGNORE" if allow_duplicates else "",
             table_name, 
             ",".join(safe_col_names)))
